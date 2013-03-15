@@ -1,0 +1,50 @@
+[
+  {
+    "from": "/",
+    "to": "index.html",
+    "method": "GET"
+  },
+  {
+    "from": "/{%= name %}.css",
+    "to": "{%= name %}.css",
+    "method": "GET"
+  },
+  {
+    "from": "/{%= name %}",
+    "to": "_update/{%= name %}",
+    "method": "POST"
+  },
+  {
+    "from": "/{%= name %}",
+    "to": "_list/{%= name %}/{%= name %}",
+    "method": "GET",
+    "query": {
+      "reduce": "false"
+    }
+  },
+  {
+    "from": "/{%= name %}/:id",
+    "to": "_update/{%= name %}/:id",
+    "method": "POST"
+  },
+  {
+    "from": "/{%= name %}/:id/delete",
+    "to": "_update/delete_{%= name %}/:id",
+    "method": "POST"
+  },
+  {
+    "from": "/{%= name %}/new",
+    "to": "_show/new_{%= name %}",
+    "method": "GET"
+  },
+  {
+    "from": "/{%= name %}/:id",
+    "to": "_show/{%= name %}/:id",
+    "method": "GET"
+  },
+  {
+    "from": "/{%= name %}/:id/edit",
+    "to": "_show/edit_{%= name %}/:id",
+    "method": "GET"
+  }
+]
