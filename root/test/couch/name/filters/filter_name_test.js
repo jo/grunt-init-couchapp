@@ -29,12 +29,12 @@ exports.filter = {
   },
   '{%= name %} doc': function(test) {
     test.expect(1);
-    test.equal({%= js_test_safe_name %}.filter({ type: '{%= name %}' }), true, 'should return true.');
+    test.equal({%= js_test_safe_name %}.filter.apply({}, [{ type: '{%= name %}' }]), true, 'should return true.');
     test.done();
   },
   'no {%= name %} doc': function(test) {
     test.expect(1);
-    test.equal({%= js_test_safe_name %}.filter({ type: 'something' }), false, 'should return false.');
+    test.equal({%= js_test_safe_name %}.filter.apply({}, [{ type: 'something' }]), false, 'should return false.');
     test.done();
   }
 };

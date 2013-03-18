@@ -1,0 +1,9 @@
+<h1>Editing {%= title %}</h1>
+<p><strong>ID:</strong> {{ id }}</p>
+<form action="{{{urlRoot}}}/{%= name %}/{{ id }}" method=POST>
+  <p class=actions>
+    <input type=submit value="Save {%= title %}">
+    or
+    <a href="{{{urlRoot}}}/{%= name %}/{{id}}">Show {%= title %}</a>
+  </p>
+</form>

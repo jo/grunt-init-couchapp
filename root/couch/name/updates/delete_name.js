@@ -1,4 +1,4 @@
 /* jshint -W025 */
-function(doc, req) {
-  return require('lib/updates/delete_{%= name %}').update(doc, req);
+function() {
+  return require('lib/updates/delete_{%= name %}').update.apply(this, arguments);
 }

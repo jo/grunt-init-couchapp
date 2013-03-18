@@ -22,16 +22,23 @@ var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/valida
     test.ifError(value)
 */
 
-exports.filter = {
+exports.validate = {
   setUp: function(done) {
     // setup here
     done();
   },
-  'without error': function(test) {
+  'validate {%= name %} without error': function(test) {
     test.expect(1);
     test.doesNotThrow(function() {
-      {%= js_test_safe_name %}.validate();
+      {%= js_test_safe_name %}.validate.apply({}, [{ type: '{%= name %}' }]);
     }, 'should pass validation');
+    test.done();
+  },
+  'validate {%= name %} with error': function(test) {
+    test.expect(1);
+    test.throws(function() {
+      {%= js_test_safe_name %}.validate.apply({}, [{}]);
+    }, 'should not pass validation');
     test.done();
   }
 };

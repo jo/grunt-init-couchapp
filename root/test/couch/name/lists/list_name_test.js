@@ -1,6 +1,6 @@
 'use strict';
 
-var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/lists/{%= name %}.js');
+var {%= js_test_safe_name %} = require('lib/lists/{%= name %}.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -22,12 +22,12 @@ var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/lists/
     test.ifError(value)
 */
 
-exports.filter = {
+exports.list = {
   setUp: function(done) {
     // setup here
     done();
   },
-  '{%= name %} doc': function(test) {
+  '{%= name %}s': function(test) {
     test.expect(2);
     var result = [];
     global.send = function(str) {
@@ -38,24 +38,27 @@ exports.filter = {
       header = obj;
     };
     var rows = [{
-      id: 'myid',
+      id: 'mydoc',
       key: 'mykey'
     }];
     global.getRow = function() {
       return rows.pop();
     };
-    var expected = [
-      '<!DOCTYPE html><html lang=en>',
-      '<head><link rel=stylesheet href="../_rewrite/{%= name %}.css"></head><body>',
-      '<h1>Listing {%= title %}s</h1>',
-      '<ol>',
-      '<li><a href="{%= name %}/myid">mykey</a></li>',
-      '</ol>',
-      '<p class=actions>Create a <a href="../_rewrite/{%= name %}/new">New {%= title %}</a> ',
-      'or go to the <a href="../_rewrite">Overwiew Page</a></p>'
-    ];
-    {%= js_test_safe_name %}.list();
-    test.equal(result.join(''), expected.join(''), 'should have been build expected result.');
+    var ctx = {
+      lib: {
+        templates: {
+          'layout.html': '{{> partial}}'
+        },
+        lists: {
+          templates: {
+            '{%= name %}.html': 'urlRoot: {{{urlRoot}}}, {{#rows}}id: {{id}}, key: {{key}}{{/rows}}'
+          }
+        }
+      }
+    };
+    var expected = 'urlRoot: ../_rewrite, id: mydoc, key: mykey';
+    {%= js_test_safe_name %}.list.apply(ctx);
+    test.equal(result.join(''), expected, 'should have been build expected result.');
     test.equal(header.headers['Content-Type'], 'text/html', 'should have send correct headers.');
     test.done();
   }

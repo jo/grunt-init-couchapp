@@ -22,21 +22,21 @@ var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/update
     test.ifError(value)
 */
 
-exports.filter = {
+exports.update = {
   setUp: function(done) {
     // setup here
     done();
   },
-  destroy: function(test) {
+  'delete {%= name %}': function(test) {
     test.expect(2);
-    var doc = {%= js_test_safe_name %}.update({}, { uuid: 'myuuid' })[0];
+    var doc = {%= js_test_safe_name %}.update.apply({}, [{}, { uuid: 'myuuid' }])[0];
     test.equal(doc._deleted, true, 'Type should be set');
     test.equal(typeof doc.deletedAt, 'number', 'deletedAt should be set');
     test.done();
   },
   response: function(test) {
     test.expect(4);
-    var response = {%= js_test_safe_name %}.update({}, {})[1];
+    var response = {%= js_test_safe_name %}.update.apply({}, [{}, {}])[1];
     test.equal(response.code, 303, 'code should be 303');
     test.equal(response.body, 'Redirecting', 'body should be "Redirecting"');
     test.equal(typeof response.headers, 'object', 'headers should be set');

@@ -1,0 +1,12 @@
+<h1>Showing {%= title %}</h1>
+<p><strong>ID:</strong> {{ id }}</p>
+<p>Created at {{ createdAt }}</p>
+<p>Updated at {{ updatedAt }}</p>
+<form action="{{{urlRoot}}}/{%= name %}/{{ id }}/delete" method=POST>
+  <p class=actions>
+    <a href="{{{urlRoot}}}/{%= name %}/{{ id }}/edit">Edit {%= title %}</a>
+    <a href="{{{urlRoot}}}/{%= name %}">List {%= title %}s</a>
+    or
+    <input type=submit value="Delete {%= title %}">
+  </p>
+</form>

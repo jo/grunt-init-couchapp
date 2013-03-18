@@ -1,14 +1,14 @@
 exports.show = function(doc, req) {
+  var mustache = require('lib/vendor/mustache');
+
   return {
-    body: [
-      '<!DOCTYPE html><html lang=en>',
-      '<head><link rel=stylesheet href="../../../_rewrite/{%= name %}.css"></head><body>',
-      '<h1>Editing {%= title %}</h1>',
-      '<p><strong>ID:</strong> ' + doc._id + '</p>',
-      '<form action="../../../_rewrite/{%= name %}/' + doc._id + '" method=POST>',
-      '<p class=actions><input type=submit value="Save {%= title %}"> ',
-      'or <a href="../../{%= name %}/' + doc._id + '">Show {%= title %}</a></p>',
-      '</form>'
-    ].join('')
+    body: mustache.render(this.lib.templates['layout.html'], {
+      urlRoot: '../../../_rewrite',
+      id: doc._id,
+      createdAt: new Date(doc.createdAt),
+      updatedAt: new Date(doc.updatedAt)
+    }, {
+      partial: this.lib.shows.templates['edit_{%= name %}.html']
+    })
   };
 };

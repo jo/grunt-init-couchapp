@@ -22,7 +22,7 @@ var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/views/lib/
     test.ifError(value)
 */
 
-exports.filter = {
+exports.view = {
   setUp: function(done) {
     // setup here
     done();
@@ -36,7 +36,7 @@ exports.filter = {
         value: value
       });
     };
-    {%= js_test_safe_name %}.map({ type: '{%= name %}' });
+    {%= js_test_safe_name %}.map.apply({}, [{ type: '{%= name %}' }]);
     test.equal(result.length, 1, 'should emit doc.');
     test.done();
   },
@@ -49,7 +49,7 @@ exports.filter = {
         value: value
       });
     };
-    {%= js_test_safe_name %}.map({ type: 'something' });
+    {%= js_test_safe_name %}.map.apply({}, [{ type: 'something' }]);
     test.equal(result.length, 0, 'should not emit doc.');
     test.done();
   }

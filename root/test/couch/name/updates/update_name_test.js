@@ -22,14 +22,14 @@ var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/update
     test.ifError(value)
 */
 
-exports.filter = {
+exports.update = {
   setUp: function(done) {
     // setup here
     done();
   },
-  create: function(test) {
+  'create {%= name %}': function(test) {
     test.expect(5);
-    var doc = {%= js_test_safe_name %}.update(null, { uuid: 'myuuid' })[0];
+    var doc = {%= js_test_safe_name %}.update.apply({}, [null, { uuid: 'myuuid' }])[0];
     test.equal(doc.type, '{%= name %}', 'Type should be set');
     test.equal(doc._id, 'myuuid', 'ID should be set');
     test.equal(typeof doc.createdAt, 'number', 'createdAt should be set');
@@ -37,22 +37,22 @@ exports.filter = {
     test.equal(doc.createdAt, doc.updatedAt, 'updatedAt and createdAt should equal');
     test.done();
   },
-  update: function(test) {
+  'update {%= name %}': function(test) {
     test.expect(2);
-    var doc = {%= js_test_safe_name %}.update({ _id: 'myid' }, {})[0];
+    var doc = {%= js_test_safe_name %}.update.apply({}, [{ _id: 'myid' }, {}])[0];
     test.equal(doc._id, 'myid', 'id should left unchanged');
     test.equal(typeof doc.updatedAt, 'number', 'updatedAt should be set');
     test.done();
   },
   form: function(test) {
     test.expect(1);
-    var doc = {%= js_test_safe_name %}.update(null, { form: { foo: 'bar' } })[0];
+    var doc = {%= js_test_safe_name %}.update.apply({}, [null, { form: { foo: 'bar' } }])[0];
     test.equal(doc.foo, 'bar', 'foo property should be set from form object');
     test.done();
   },
   response: function(test) {
     test.expect(3);
-    var response = {%= js_test_safe_name %}.update({}, {})[1];
+    var response = {%= js_test_safe_name %}.update.apply({}, [{}, {}])[1];
     test.equal(response.code, 303, 'code should be 303');
     test.equal(response.body, 'Redirecting', 'body should be "Redirecting"');
     test.equal(typeof response.headers, 'object', 'headers should be set');
@@ -60,13 +60,13 @@ exports.filter = {
   },
   createHeaders: function(test) {
     test.expect(1);
-    var response = {%= js_test_safe_name %}.update({}, { uuid: 'myid' })[1];
+    var response = {%= js_test_safe_name %}.update.apply({}, [{}, { uuid: 'myid' }])[1];
     test.equal(response.headers.Location, '../_rewrite/{%= name %}/myid', 'Location header should be set');
     test.done();
   },
   updateHeaders: function(test) {
     test.expect(1);
-    var response = {%= js_test_safe_name %}.update({ _id: 'myid' }, {})[1];
+    var response = {%= js_test_safe_name %}.update.apply({}, [{ _id: 'myid' }, {}])[1];
     test.equal(response.headers.Location, '../../_rewrite/{%= name %}/myid', 'Location header should be set');
     test.done();
   }

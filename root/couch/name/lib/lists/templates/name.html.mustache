@@ -1,0 +1,11 @@
+<h1>Listing {%= title %}s</h1>
+<ol>
+  {{#rows}}
+    <li><a href="{{{urlRoot}}}/{%= name %}/{{id}}">{{key}}</a></li>
+  {{/rows}}
+</ol>
+<p class=actions>
+  Create a <a href="{{{urlRoot}}}/{%= name %}/new">New {%= title %}</a>
+  or go to the
+  <a href="{{{urlRoot}}}">Overwiew Page</a>
+</p>

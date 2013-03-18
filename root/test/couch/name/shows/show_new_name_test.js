@@ -1,6 +1,6 @@
 'use strict';
 
-var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/shows/new_{%= name %}.js');
+var {%= js_test_safe_name %} = require('lib/shows/new_{%= name %}.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -22,25 +22,27 @@ var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/shows/
     test.ifError(value)
 */
 
-exports.filter = {
+exports.show = {
   setUp: function(done) {
     // setup here
     done();
   },
-  show: function(test) {
+  'new {%= name %}': function(test) {
     test.expect(1);
-    var expected = {
-      body: [
-        '<!DOCTYPE html><html lang=en>',
-        '<head><link rel=stylesheet href="../../_rewrite/{%= name %}.css"></head><body>',
-        '<h1>New {%= title %}</h1>',
-        '<form action="../../_rewrite/{%= name %}" method=POST>',
-        '<p><input type=submit value="Create {%= title %}"> ',
-        'or <a href="../{%= name %}">List {%= title %}s</a></p>',
-        '</form>'
-      ].join('')
+    var ctx = {
+      lib: {
+        templates: {
+          'layout.html': 'layout-{{> partial}}'
+        },
+        shows: {
+          templates: {
+            'new_{%= name %}.html': 'new: urlRoot: {{{urlRoot}}}'
+          }
+        }
+      }
     };
-    test.equal({%= js_test_safe_name %}.show().body, expected.body, 'should have been build expected result.');
+    var expected = 'layout-new: urlRoot: ../../_rewrite';
+    test.equal({%= js_test_safe_name %}.show.apply(ctx).body, expected, 'should have been build expected result.');
     test.done();
   }
 };

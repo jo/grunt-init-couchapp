@@ -1,6 +1,6 @@
 'use strict';
 
-var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/shows/edit_{%= name %}.js');
+var {%= js_test_safe_name %} = require('lib/shows/edit_{%= name %}.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -22,29 +22,30 @@ var {%= js_test_safe_name %} = require('../../../../couch/{%= name %}/lib/shows/
     test.ifError(value)
 */
 
-exports.filter = {
+exports.show = {
   setUp: function(done) {
     // setup here
     done();
   },
-  '{%= name %} doc': function(test) {
+  'edit {%= name %}': function(test) {
     test.expect(1);
     var doc = {
        _id: 'mydoc'
     };
-    var expected = {
-      body: [
-        '<!DOCTYPE html><html lang=en>',
-        '<head><link rel=stylesheet href="../../../_rewrite/{%= name %}.css"></head><body>',
-        '<h1>Editing {%= title %}</h1>',
-        '<p><strong>ID:</strong> mydoc</p>',
-        '<form action="../../../_rewrite/{%= name %}/mydoc" method=POST>',
-        '<p class=actions><input type=submit value="Save {%= title %}"> ',
-        'or <a href="../../{%= name %}/mydoc">Show {%= title %}</a></p>',
-        '</form>'
-      ].join('')
+    var ctx = {
+      lib: {
+        templates: {
+          'layout.html': 'layout-{{> partial}}'
+        },
+        shows: {
+          templates: {
+            'edit_{%= name %}.html': 'edit: urlRoot: {{{urlRoot}}}, id: {{id}}'
+          }
+        }
+      }
     };
-    test.equal({%= js_test_safe_name %}.show(doc).body, expected.body, 'should have been build expected result.');
+    var expected = 'layout-edit: urlRoot: ../../../_rewrite, id: mydoc';
+    test.equal({%= js_test_safe_name %}.show.apply(ctx, [doc]).body, expected, 'should have been build expected result.');
     test.done();
   }
 };

@@ -1,4 +1,4 @@
 /* jshint -W025 */
-function(doc) {
-  require('views/lib/{%= name %}').map(doc);
+function() {
+  require('views/lib/{%= name %}').map.apply(this, arguments);
 }

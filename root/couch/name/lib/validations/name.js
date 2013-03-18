@@ -1,3 +1,8 @@
 exports.validate = function(newDoc, oldDoc, userCtx, secObj) {
-  // your validations here...
+  if (typeof newDoc.type !== 'string') {
+    throw({ forbidden: 'Document must have a type.' });
+  }
+  if (newDoc.type === '{%= name %}') {
+    // your validations here...
+  }
 };

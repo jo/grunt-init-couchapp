@@ -1,4 +1,4 @@
 /* jshint -W025 */
-function(doc, req) {
-  return require('lib/shows/{%= name %}').show(doc, req);
+function() {
+  return require('lib/shows/{%= name %}').show.apply(this, arguments);
 }
