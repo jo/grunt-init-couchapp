@@ -14,8 +14,7 @@ var id = process.argv[3];
 exports.description = 'Create a Couchapp.';
 
 // Template-specific notes to be displayed before question prompts.
-exports.notes = '_Document ID_ shouldn\'t contain spaces and should ' +
-  'should not start with a number.';
+exports.notes = '_Document ID_ should not start with an underscore.';
 
 // Template-specific notes to be displayed after question prompts.
 exports.after = 'Please load and configure grunt-contrib-jst.' +
@@ -33,12 +32,13 @@ exports.template = function(grunt, init, done) {
       message: 'Document ID',
       default: function(value, data, done) {
         var name = id;
-        // Remove anything not a letter, number, dash, dot or underscore.
-        name = name.replace(/[^\w\-\.]/g, '');
+        // Remove anything not a letter, number, dash, dot or underscore
+        // and leading underscores
+        name = name.replace(/[^\w\-\.]/g, '').replace(/^_+/, '');
         done(null, name);
       },
-      validator: /^[\w\-\.]+$/,
-      warning: 'Must be only letters, numbers, dashes, dots or underscores.',
+      validator: /^[^_]+/,
+      warning: 'Must not start with an underscore.'
       sanitize: function(value, data, done) {
         // An additional value, safe to use as a JavaScript identifier.
         data.js_safe_name = value.replace(/[\W_]+/g, '_').replace(/^(\d)/, '_$1');
