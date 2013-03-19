@@ -14,7 +14,8 @@ var id = process.argv[3];
 exports.description = 'Create a Couchapp.';
 
 // Template-specific notes to be displayed before question prompts.
-exports.notes = '_Document ID_ should not start with an underscore.';
+exports.notes = '_Document ID_ must not start with an underscore. ' +
+  'This is only the part after _design/.';
 
 // Template-specific notes to be displayed after question prompts.
 exports.after = 'Please load and configure grunt-contrib-jst.' +
