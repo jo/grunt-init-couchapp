@@ -39,7 +39,7 @@ exports.template = function(grunt, init, done) {
         done(null, name);
       },
       validator: /^[^_]+/,
-      warning: 'Must not start with an underscore.'
+      warning: 'Must not start with an underscore.',
       sanitize: function(value, data, done) {
         // An additional value, safe to use as a JavaScript identifier.
         data.js_safe_name = value.replace(/[\W_]+/g, '_').replace(/^(\d)/, '_$1');
